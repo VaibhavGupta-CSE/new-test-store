@@ -401,6 +401,8 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+
     <script>
 function expandSwatches(button) {
   const box = button.parentElement;
@@ -410,5 +412,60 @@ function expandSwatches(button) {
   button.style.display = 'none';
 }
 </script>
+
+{% comment %} <script>
+document.addEventListener('mouseover', function(e) {
+  const swatch = e.target.closest('.product-card-swatch');
+  if (!swatch) return;
+
+  const card = swatch.closest('.card');
+  const img = card?.querySelector('.card__media img');
+  const image = swatch.dataset.image;
+
+  if (img && image) img.src = image;
+  console.log(swatch,card,img,image);
+});
+</script> {% endcomment %}
+
+
+<script>
+document.addEventListener('mouseover', function(e) {
+  const swatch = e.target.closest('.product-card-swatch');
+  if (!swatch) return;
+
+  const card = swatch.closest('.card');
+  const img = card?.querySelector('.card__media img');
+  const image = swatch.dataset.image;
+
+  if (!img || !image) return;
+
+  if (!img.dataset.originalImage) {
+    img.dataset.originalImage = img.src;
+    img.dataset.originalSrcset = img.srcset || '';
+  }
+
+  img.removeAttribute('srcset');
+  img.src = image;
+});
+
+document.addEventListener('mouseout', function(e) {
+  const swatch = e.target.closest('.product-card-swatch');
+  if (!swatch) return;
+
+  if (swatch.contains(e.relatedTarget)) return;
+
+  const card = swatch.closest('.card');
+  const img = card?.querySelector('.card__media img');
+
+  if (!img || !img.dataset.originalImage) return;
+
+  img.src = img.dataset.originalImage;
+
+  if (img.dataset.originalSrcset) {
+    img.srcset = img.dataset.originalSrcset;
+  }
+});
+</script>
+
   </body>
 </html>
