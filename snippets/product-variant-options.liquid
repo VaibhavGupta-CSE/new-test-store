@@ -62,7 +62,57 @@
   {% assign escaped_value = value | escape %}
 
   {%- if picker_type == 'swatch' -%}
+
     {%- capture help_text -%}
+    <span class="visually-hidden">{{ escaped_value }}</span>
+    {{ label_unavailable }}
+  {%- endcapture -%}
+
+  {% assign color_handle = value | append: '' | strip | handleize %}
+  {% assign color_obj = metaobjects['shopify--color-pattern'][color_handle] %}
+
+  <input
+    type="radio"
+    id="{{ input_id }}"
+    name="{{ input_name | escape }}"
+    value="{{ escaped_value }}"
+    form="{{ product_form_id }}"
+    {% if value.selected %}
+      checked
+    {% endif %}
+    {% if option_disabled %}
+      class="visually-disabled"
+    {% endif %}
+    {{ input_dataset }}
+  >
+
+  <label
+    for="{{ input_id }}"
+    title="{{ escaped_value }}"
+    class="swatch-input__label{% if block.settings.swatch_shape == 'square' %} swatch-input__label--square{% endif %}"
+  >
+
+    {% if color_obj and color_obj.color != blank %}
+
+      <span
+        class="swatch{% if block.settings.swatch_shape == 'square' %} swatch--square{% endif %}"
+        style="--swatch--background: {{ color_obj.color }};"
+      ></span>
+
+    {% else %}
+
+      <span
+        class="swatch swatch--unavailable{% if block.settings.swatch_shape == 'square' %} swatch--square{% endif %}"
+      ></span>
+
+    {% endif %}
+
+    {{ help_text }}
+
+  </label>
+
+  
+    {% comment %} {%- capture help_text -%}
       <span class="visually-hidden">{{ escaped_value }}</span>
       {{ label_unavailable }}
     {%- endcapture -%}
@@ -79,7 +129,7 @@
       shape: block.settings.swatch_shape,
       help_text: help_text,
       additional_props: input_dataset
-    %}
+    %} {% endcomment %}
   {%- elsif picker_type == 'button' -%}
     <input
       type="radio"

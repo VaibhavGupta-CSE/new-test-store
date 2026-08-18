@@ -401,5 +401,14 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+    <script>
+function expandSwatches(button) {
+  const box = button.parentElement;
+  box.querySelectorAll('.product-card-swatch').forEach(s => {
+    s.style.display = 'inline-block';
+  });
+  button.style.display = 'none';
+}
+</script>
   </body>
 </html>
