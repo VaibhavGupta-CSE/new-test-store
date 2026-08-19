@@ -209,8 +209,33 @@
                 </p>
               {%- endif -%}
 
-              {%- assign card_compare_price = card_product.compare_at_price -%}
-{%- assign card_current_price = card_product.price -%}
+
+  {%- if card_product.tags contains 'discount:25OFF' -%}
+
+  {%- assign card_variant = card_product.selected_or_first_available_variant -%}
+  {%- assign original_price = card_variant.price -%}
+  {%- assign discount_price = original_price | times: 75 | divided_by: 100 -%}
+
+  <div class="custom-automatic-discount-card">
+
+    <span class="custom-automatic-original-price">
+      <s>{{ original_price | money }}</s>
+    </span>
+
+    <span class="custom-automatic-discounted-price">
+      {{ discount_price | money }}
+    </span>
+
+    <span class="custom-discount-badge">
+      25% OFF
+    </span>
+
+  </div>
+
+{%- else -%}
+{%- assign card_variant = card_product.selected_or_first_available_variant -%}
+{%- assign card_compare_price = card_variant.compare_at_price -%}
+{%- assign card_current_price = card_variant.price -%}
 
 <div class="custom-card-price">
   <span class="custom-card-price__current">
@@ -223,6 +248,8 @@
   {%- endif -%}
 
 </div>
+
+{% endif %}
 {% if card_product.metafields.custom.tax_and_shipping.value != blank %}
   <div class="custom-card-shipping">
     {{ card_product.metafields.custom.tax_and_shipping.value }}

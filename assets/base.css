@@ -3755,3 +3755,37 @@ details-disclosure > details {
     transform: translateX(100%) scaleX(0);
   }
 }
+
+/* Custom Discount Price Styling CSS */
+
+.custom-automatic-discount {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.custom-original-price {
+  text-decoration: line-through;
+  opacity: 0.65;
+  font-size: 1.5rem;
+}
+
+.custom-discounted-price {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+.custom-discount-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  line-height: 1;
+  background: #000;
+  color: #fff;
+  white-space: nowrap;
+}
