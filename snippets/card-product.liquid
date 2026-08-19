@@ -210,26 +210,21 @@
               {%- endif -%}
 
 
-  {% comment %} {%- if card_product.tags contains 'discount:25OFF' -%} {% endcomment %}
   {% if card_product.metafields.custom.discount_active.value %}            
   {%- assign card_variant = card_product.selected_or_first_available_variant -%}
   {%- assign original_price = card_variant.price -%}
   {%- assign discount_price = original_price | times: 75 | divided_by: 100 -%}
 
   <div class="custom-automatic-discount-card">
-
     <span class="custom-automatic-original-price">
       <s>{{ original_price | money }}</s>
     </span>
-
     <span class="custom-automatic-discounted-price">
       {{ discount_price | money }}
     </span>
-
     <span class="custom-discount-badge">
       25% OFF
     </span>
-
   </div>
 
 {%- else -%}
@@ -244,6 +239,11 @@
   {%- if card_compare_price > card_current_price -%}
     <span class="custom-card-price__compare">
       {{ card_compare_price | money }}
+    </span>
+    {%- assign discount_amount = card_compare_price | minus: card_current_price -%}
+    {%- assign discount_percentage = discount_amount | times: 100 | divided_by: card_compare_price -%}
+    <span class="custom-discount-badge">
+      {{ discount_percentage }}% OFF
     </span>
   {%- endif -%}
 
