@@ -210,8 +210,8 @@
               {%- endif -%}
 
 
-  {%- if card_product.tags contains 'discount:25OFF' -%}
-
+  {% comment %} {%- if card_product.tags contains 'discount:25OFF' -%} {% endcomment %}
+  {% if card_product.metafields.custom.discount_active.value %}            
   {%- assign card_variant = card_product.selected_or_first_available_variant -%}
   {%- assign original_price = card_variant.price -%}
   {%- assign discount_price = original_price | times: 75 | divided_by: 100 -%}

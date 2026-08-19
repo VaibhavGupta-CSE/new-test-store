@@ -59,7 +59,8 @@
           - div.price__sale: Displayed when a variant is a sale
       {%- endcomment -%}
 
-    {%- if request.page_type == 'product' and product.tags contains 'discount:25OFF' -%}
+    {% comment %} {%- if request.page_type == 'product' and product.tags contains 'discount:25OFF' -%} {% endcomment %}
+     {% if product.metafields.custom.discount_active.value %}
   {%- assign discounted_price = price | times: 75 | divided_by: 100 -%}
 
   <div class="custom-automatic-discount">
